@@ -169,6 +169,18 @@ class Gss_Events_Reader {
   }
 
   /**
+   * Get the list of required header labels.
+   *
+   * @since     0.1.0
+   * @return    array    A list of header labels.
+   */
+  public function get_header_labels() {
+
+    return $this->header_labels;
+
+  }
+
+  /**
    * Fetch the events list from the source spreadsheet.
    *
    * @since     0.1.0
