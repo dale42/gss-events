@@ -99,5 +99,36 @@ class Gss_Events_Admin {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gss-events-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
+  /**
+   * Add administration menu configuration page.
+   */
+  public function add_config_page(){
+    $display_function = function () {
+      if (!current_user_can('manage_options')) {
+        wp_die('Unauthorized user');
+      }
+
+      $message = '';
+
+      // Process form submission
+      if ( isset($_POST['gss_url']) ) {
+        if ( empty($_POST['config_hash']) || !wp_verify_nonce($_POST['config_hash'], 'gss_events_config_nonce_action') ) {
+          wp_die('Configuration submission error');
+        }
+        if ( filter_var($_POST['gss_url'], FILTER_VALIDATE_URL) ) {
+          $gss_url = filter_var($_POST['gss_url'], FILTER_SANITIZE_URL);
+          update_option('gss_events_source_url', $gss_url);
+        }
+        else {
+          $message = 'Invalid URL';
+        }
+      }
+
+      // Get current value and display config page
+      $value = get_option('gss_events_source_url', '');
+      include plugin_dir_path( dirname( __FILE__ ) ) . 'admin/templates/gss-events-admin-display.php';
+    };
+    add_menu_page( 'GSS Events Configuration', 'GSS Events', 'manage_options', 'gss-events', $display_function );
+  }
 
 }
