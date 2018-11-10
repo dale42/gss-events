@@ -16,7 +16,7 @@
  * Plugin Name:       Google Spreadsheet Events
  * Plugin URI:        https://github.com/dale42/gss-events
  * Description:       Display events from a Google Spreadsheet.
- * Version:           0.1.2
+ * Version:           0.1.3-dev
  * Author:            Dale McGladdery
  * Author URI:        https://group42.ca
  * License:           GPL-2.0+
@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 0.1.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'PLUGIN_NAME_VERSION', '0.1.2' );
+define( 'PLUGIN_NAME_VERSION', '0.1.3-dev' );
 
 /**
  * The code that runs during plugin activation.
