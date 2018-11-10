@@ -186,6 +186,7 @@ class Gss_Events {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
 		$this->loader->add_shortcode( 'gss_events_teaser_list', ['Gss_Events_Public', 'shortcode_gss_events_teaser_list'] );
+    $this->loader->add_shortcode( 'gss_events_full_list',   ['Gss_Events_Public', 'shortcode_gss_events_full_list'] );
 
 	}
 
