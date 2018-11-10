@@ -111,7 +111,12 @@ class Gss_Events {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-gss-events-i18n.php';
 
-		/**
+    /**
+     * The class is responsible for reading the Google Spreadsheet.
+     */
+    require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-gss-events-reader.php';
+
+    /**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-gss-events-admin.php';
@@ -122,7 +127,7 @@ class Gss_Events {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-gss-events-public.php';
 
-		$this->loader = new Gss_Events_Loader();
+    $this->loader = new Gss_Events_Loader();
 
 	}
 
@@ -151,12 +156,19 @@ class Gss_Events {
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
+    // Add Action Cheatsheet
+    // @param    string               $hook             The name of the WordPress action that is being registered.
+    // @param    object               $component        A reference to the instance of the object on which the action is defined.
+    // @param    string               $callback         The name of the function definition on the $component.
+    // @param    int                  $priority         Optional. The priority at which the function should be fired. Default is 10.
+    // @param    int                  $accepted_args    Optional. The number of arguments that should be passed to the $callback. Default is 1.
 
 		$plugin_admin = new Gss_Events_Admin( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_config_page');
 
+    // $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
+    // $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 	}
 
 	/**
