@@ -59,19 +59,30 @@ class Gss_Events_Admin {
    *
    * @since    0.1.0
    * @access   private
-   * @param    array                $preview_data      The array returned by Gss_Events_Reader->fetch_preview_data().
+   * @param    Gss_Events_Reader     $spreadsheet      The GSS Reader class representing the spreadsheet.
    * @return   string                                  A formatted string of the preview data.
    */
-  private function format_gss_preview_data( $preview_data ) {
+  private function format_gss_preview_data( $spreadsheet ) {
+    $preview_data = $spreadsheet->fetch_preview_data();
+
     $output = '<h2>Preview</h2>';
 
+    // Format the preview data based on whether or not it can be parsed.
     if ( !empty($preview_data['raw']) ) {
+      // If the URL can not be parsed, the 'raw' array is populated.
+      $required_header_labels = implode(', ', $spreadsheet->get_header_labels());
       $output .= '<p>The Google Spreadsheet could not be parsed.</p>';
-      $output .= '<p>Please confirm the required columns are present and the spreadsheet URL is using the csv format.</p>';
+      $output .= '<p>Here are some things to check:</p>';
+      $output .= '<ul>';
+      $output .= "<li>The required spreadsheet columns are present:<br>{$required_header_labels}</li>";
+      $output .= "<li>The spreadsheet URL is using the csv format.</li>";
+      $output .= '</ul>';
       $output .= '<p>First five lines of the document:</p>';
       $output .= '<ol><li>' . implode('</li><li>', $preview_data['raw']) . '</li></ol>';
     }
     else {
+      // If the URL can be parsed there are values for 'preamble', 'header', and
+      // 'content'.
       $format_table = function ($row_data) {
         $table = '<table>';
         foreach ($row_data as $row) {
@@ -170,8 +181,7 @@ class Gss_Events_Admin {
       if ($gss_url) {
         try {
           $spreadsheet = new Gss_Events_Reader($gss_url);
-          $preview_data = $spreadsheet->fetch_preview_data();
-          $sample_content = $this->format_gss_preview_data($preview_data);
+          $sample_content = $this->format_gss_preview_data($spreadsheet);
         }
         catch (Exception $e) {
           $admin_messages[] = $e->getMessage();

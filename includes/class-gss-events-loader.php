@@ -41,19 +41,43 @@ class Gss_Events_Loader {
 	 */
 	protected $filters;
 
-	/**
+  /**
+   * The array of shortcodes registered with WordPress.
+   *
+   * @since    0.1.0
+   * @access   protected
+   * @var      array    $shortcodes    The shortcodes registered with WordPress when the plugin loads.
+   */
+  protected $shortcodes;
+
+  /**
 	 * Initialize the collections used to maintain the actions and filters.
 	 *
 	 * @since    0.1.0
 	 */
 	public function __construct() {
 
-		$this->actions = array();
-		$this->filters = array();
+		$this->actions    = [];
+		$this->filters    = [];
+		$this->shortcodes = [];
 
 	}
 
-	/**
+  /**
+   * Add a new shortcode to the collection registered with WordPress.
+   *
+   * @since    0.1.2
+   * @param    string               $tag             The name of the WordPress action that is being registered.
+   * @param    mixed                $function        A reference to the instance of the object on which the action is defined.
+   */
+  public function add_shortcode( $tag, $function ) {
+    $this->shortcodes[] = [
+      'tag'      => $tag,
+      'function' => $function,
+    ];
+  }
+
+  /**
 	 * Add a new action to the collection to be registered with WordPress.
 	 *
 	 * @since    0.1.0
@@ -123,6 +147,10 @@ class Gss_Events_Loader {
 		foreach ( $this->actions as $hook ) {
 			add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
 		}
+
+		foreach ( $this->shortcodes as $shortcode) {
+		  add_shortcode( $shortcode['tag'], $shortcode['function'] );
+    }
 
 	}
 

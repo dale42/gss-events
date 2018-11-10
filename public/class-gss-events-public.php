@@ -100,4 +100,76 @@ class Gss_Events_Public {
 
 	}
 
+  /**
+   * Function for the gss_events_teaser_list shortcode.
+   *
+   * @since    0.1.2
+   */
+  public function shortcode_gss_events_teaser_list( $attributes ) {
+
+      $output = '';
+
+      // Get the event list
+      $gss_url = get_option('gss_events_source_url', '');
+      if ($gss_url) {
+        try {
+          $spreadsheet = new Gss_Events_Reader($gss_url);
+          $event_list = $spreadsheet->fetch_events();
+        }
+        catch (Exception $e) {
+          return $output;
+        }
+      }
+      else {
+        return $output;
+      }
+
+      // Format the events and output
+      $output = '<h2>Events</h2>';
+      foreach ($event_list as $event) {
+        ob_start();
+        include( plugin_dir_path( __FILE__ ) . '/templates/event-item-teaser.php' );
+        $output .= ob_get_clean();
+      }
+
+      return $output;
+
+  }
+
+  /**
+   * Function for the gss_events_full_list shortcode.
+   *
+   * @since    0.1.2
+   */
+  public function shortcode_gss_events_full_list( $attributes ) {
+
+    $output = '';
+
+    // Get the event list
+    $gss_url = get_option('gss_events_source_url', '');
+    if ($gss_url) {
+      try {
+        $spreadsheet = new Gss_Events_Reader($gss_url);
+        $event_list = $spreadsheet->fetch_events();
+      }
+      catch (Exception $e) {
+        return $output;
+      }
+    }
+    else {
+      return $output;
+    }
+
+    // Format the events and output
+    $output = '<h2>Events</h2>';
+    foreach ($event_list as $event) {
+      ob_start();
+      include( plugin_dir_path( __FILE__ ) . '/templates/event-item-card.php' );
+      $output .= ob_get_clean();
+    }
+
+    return $output;
+
+  }
+
 }
