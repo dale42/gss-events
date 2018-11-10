@@ -112,13 +112,13 @@ class Gss_Events_Reader {
     // the header.
     $label_count = count($this->header_labels);
     $header_row_number = NULL;
-    $header_row = [];
+    $header_row_map = [];
     foreach ($content_rows as $index => $row) {
       $fields = str_getcsv($row);
       $common_values = array_intersect($this->header_labels, $fields);
       if (count($common_values) == $label_count) {
         // This should be the header row.
-        $header_row = $fields;
+        $header_row_map = $fields;
         $header_row_number = $index;
         break;
       }
@@ -129,7 +129,7 @@ class Gss_Events_Reader {
     }
 
     $this->gss_preamble     = array_slice($content_rows, 0, $header_row_number);
-    $this->gss_header_row   = $header_row;
+    $this->gss_header_row   = $header_row_map;
     $this->gss_content_rows = array_slice($content_rows, $header_row_number + 1);
   }
 

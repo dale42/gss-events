@@ -54,7 +54,43 @@ class Gss_Events_Admin {
 
 	}
 
-	/**
+  /**
+   * A utility function that formats GSS Reader previews.
+   *
+   * @since    0.1.0
+   * @access   private
+   * @param    array                $preview_data      The array returned by Gss_Events_Reader->fetch_preview_data().
+   * @return   string                                  A formatted string of the preview data.
+   */
+  private function format_gss_preview_data( $preview_data ) {
+    $output = '<h2>Preview</h2>';
+
+    if ( !empty($preview_data['raw']) ) {
+      $output .= '<p>The Google Spreadsheet could not be parsed.</p>';
+      $output .= '<p>Please confirm the required columns are present and the spreadsheet URL is using the csv format.</p>';
+      $output .= '<p>First five lines of the document:</p>';
+      $output .= '<ol><li>' . implode('</li><li>', $preview_data['raw']) . '</li></ol>';
+    }
+    else {
+      $format_table = function ($row_data) {
+        $table = '<table>';
+        foreach ($row_data as $row) {
+          $cells = str_getcsv($row);
+          $table .= '<tr><td>' . implode('</td><td>', $cells) . '</td></tr>';
+        }
+        $table .= '</table>';
+        return $table;
+      };
+      $output .= '<h3>Preamble</h3>' . $format_table($preview_data['preamble']);
+      $output .= '<h3>Header</h3>' . '<table><tr><td>' . implode('</td><td>', $preview_data['header']) . '</td></tr></table>';
+      $output .= '<h3>Content</h3>' . $format_table($preview_data['content']);
+    }
+
+    return $output;
+
+  }
+
+    /**
 	 * Register the stylesheets for the admin area.
 	 *
 	 * @since    0.1.0
@@ -99,6 +135,7 @@ class Gss_Events_Admin {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gss-events-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
+
   /**
    * Add administration menu configuration page.
    */
@@ -134,7 +171,7 @@ class Gss_Events_Admin {
         try {
           $spreadsheet = new Gss_Events_Reader($gss_url);
           $preview_data = $spreadsheet->fetch_preview_data();
-          $sample_content = '<pre>' . print_r($preview_data, 1) . '</pre>';
+          $sample_content = $this->format_gss_preview_data($preview_data);
         }
         catch (Exception $e) {
           $admin_messages[] = $e->getMessage();
