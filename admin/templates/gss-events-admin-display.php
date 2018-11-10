@@ -15,20 +15,25 @@
 
 <h1>Google Spreadsheet Events Configuration</h1>
 
-<?php if ($message): ?>
+<?php if ($message_area): ?>
   <div class="gss-events-message">
-    <?php print $message ?>
+    <?php print $message_area ?>
   </div>
 <?php endif; ?>
 
 
 <form method="POST">
+
   <label for="gss_url">Google Spreadsheet URL</label>
 
-  <input type="text" name="gss_url" id="gss_url" value="<?php echo $value; ?>">
+  <input type="text" name="gss_url" id="gss_url" value="<?php print $gss_url; ?>">
 
   <?php wp_nonce_field( 'gss_events_config_nonce_action', 'config_hash' ); ?>
 
   <input type="submit" value="Save" class="button button-primary button-large">
+
 </form>
 
+<?php if ($sample_content): ?>
+  <?php print $sample_content; ?>
+<?php endif; ?>

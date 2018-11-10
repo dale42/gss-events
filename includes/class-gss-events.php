@@ -111,7 +111,12 @@ class Gss_Events {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-gss-events-i18n.php';
 
-		/**
+    /**
+     * The class is responsible for reading the Google Spreadsheet.
+     */
+    require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-gss-events-reader.php';
+
+    /**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-gss-events-admin.php';
@@ -122,7 +127,7 @@ class Gss_Events {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-gss-events-public.php';
 
-		$this->loader = new Gss_Events_Loader();
+    $this->loader = new Gss_Events_Loader();
 
 	}
 

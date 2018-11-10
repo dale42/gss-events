@@ -108,7 +108,11 @@ class Gss_Events_Admin {
         wp_die('Unauthorized user');
       }
 
-      $message = '';
+      // Initialize some variables
+      $spreadsheet    = NULL;
+      $admin_messages = [];
+      $message_area   = '';
+      $sample_content = '';
 
       // Process form submission
       if ( isset($_POST['gss_url']) ) {
@@ -116,16 +120,33 @@ class Gss_Events_Admin {
           wp_die('Configuration submission error');
         }
         if ( filter_var($_POST['gss_url'], FILTER_VALIDATE_URL) ) {
-          $gss_url = filter_var($_POST['gss_url'], FILTER_SANITIZE_URL);
-          update_option('gss_events_source_url', $gss_url);
+          $new_gss_url = filter_var($_POST['gss_url'], FILTER_SANITIZE_URL);
+          update_option('gss_events_source_url', $new_gss_url);
         }
         else {
-          $message = 'Invalid URL';
+          $admin_messages[] = 'Invalid URL';
         }
       }
 
       // Get current value and display config page
-      $value = get_option('gss_events_source_url', '');
+      $gss_url = get_option('gss_events_source_url', '');
+      if ($gss_url) {
+        try {
+          $spreadsheet = new Gss_Events_Reader($gss_url);
+          $preview_data = $spreadsheet->fetch_preview_data();
+          $sample_content = '<pre>' . print_r($preview_data, 1) . '</pre>';
+        }
+        catch (Exception $e) {
+          $admin_messages[] = $e->getMessage();
+        }
+      }
+
+      if ($admin_messages) {
+        $admin_messages = array_map(function($message) {
+          return '<li>' . $message . '</li>';
+        }, $admin_messages);
+        $message_area = '<ul>' . implode('', $admin_messages) . '</ul>';
+      }
       include plugin_dir_path( dirname( __FILE__ ) ) . 'admin/templates/gss-events-admin-display.php';
     };
     add_menu_page( 'GSS Events Configuration', 'GSS Events', 'manage_options', 'gss-events', $display_function );
