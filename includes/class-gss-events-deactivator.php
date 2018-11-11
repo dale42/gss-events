@@ -23,14 +23,12 @@
 class Gss_Events_Deactivator {
 
 	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
+	 * Plugin deactivation cleanup.
 	 *
 	 * @since    0.1.0
 	 */
 	public static function deactivate() {
-
+    delete_option('gss_events_source_url');
 	}
 
 }
