@@ -22,11 +22,11 @@
 <?php endif; ?>
 
 
-<form method="POST">
+<form id="gss-events-config" method="POST">
 
-  <label for="gss_url">Google Spreadsheet URL</label>
+  <label for="gss_url">Google Spreadsheet URL:</label>
 
-  <input type="text" name="gss_url" id="gss_url" value="<?php print $gss_url; ?>">
+  <input type="text" name="gss_url" id="gss-events-gss-url" value="<?php print $gss_url; ?>">
 
   <?php wp_nonce_field( 'gss_events_config_nonce_action', 'config_hash' ); ?>
 
@@ -35,5 +35,15 @@
 </form>
 
 <?php if ($sample_content): ?>
-  <?php print $sample_content; ?>
+
+  <div class="gss-event-sample-content-area">
+
+    <h2>Retrieved Information</h2>
+
+    <div class="gss-event-display-box">
+      <?php print $sample_content; ?>
+    </div>
+
+  </div>
+
 <?php endif; ?>

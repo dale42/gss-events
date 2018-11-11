@@ -64,8 +64,7 @@ class Gss_Events_Admin {
    */
   private function format_gss_preview_data( $spreadsheet ) {
     $preview_data = $spreadsheet->fetch_preview_data();
-
-    $output = '<h2>Preview</h2>';
+    $output = '';
 
     // Format the preview data based on whether or not it can be parsed.
     if ( !empty($preview_data['raw']) ) {
@@ -75,9 +74,9 @@ class Gss_Events_Admin {
       $output .= '<p>Here are some things to check:</p>';
       $output .= '<ul>';
       $output .= "<li>The required spreadsheet columns are present:<br>{$required_header_labels}</li>";
-      $output .= "<li>The spreadsheet URL is using the csv format.</li>";
+      $output .= "<li>The spreadsheet URL is using the csv format.<br>Insure it contains: <code>&amp;output=csv</code></li>";
       $output .= '</ul>';
-      $output .= '<p>First five lines of the document:</p>';
+      $output .= '<p>Here are the first 5 lines of the document:</p>';
       $output .= '<ol><li>' . implode('</li><li>', $preview_data['raw']) . '</li></ol>';
     }
     else {
