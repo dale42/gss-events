@@ -168,6 +168,7 @@ class Gss_Events {
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_config_page');
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
+
     // $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 	}
 
@@ -183,7 +184,7 @@ class Gss_Events {
 		$plugin_public = new Gss_Events_Public( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		// $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
 		$this->loader->add_shortcode( 'gss_events_teaser_list', ['Gss_Events_Public', 'shortcode_gss_events_teaser_list'] );
     $this->loader->add_shortcode( 'gss_events_full_list',   ['Gss_Events_Public', 'shortcode_gss_events_full_list'] );

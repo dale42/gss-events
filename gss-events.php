@@ -38,15 +38,6 @@ if ( ! defined( 'WPINC' ) ) {
 define( 'PLUGIN_NAME_VERSION', '0.1.3' );
 
 /**
- * The code that runs during plugin activation.
- * This action is documented in includes/class-gss-events-activator.php
- */
-function activate_gss_events() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-gss-events-activator.php';
-	Gss_Events_Activator::activate();
-}
-
-/**
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-gss-events-deactivator.php
  */
@@ -55,7 +46,6 @@ function deactivate_gss_events() {
 	Gss_Events_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_gss_events' );
 register_deactivation_hook( __FILE__, 'deactivate_gss_events' );
 
 /**
