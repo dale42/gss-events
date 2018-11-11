@@ -105,7 +105,7 @@ class Gss_Events_Public {
    *
    * @since    0.1.2
    */
-  public function shortcode_gss_events_teaser_list( $attributes ) {
+  public static function shortcode_gss_events_teaser_list( $attributes ) {
 
       $output = '';
 
@@ -141,7 +141,7 @@ class Gss_Events_Public {
    *
    * @since    0.1.2
    */
-  public function shortcode_gss_events_full_list( $attributes ) {
+  public static function shortcode_gss_events_full_list( $attributes ) {
 
     $output = '';
 
