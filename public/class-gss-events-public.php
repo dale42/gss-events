@@ -161,7 +161,7 @@ class Gss_Events_Public {
     }
 
     // Format the events and output
-    $output = '<h2>Events</h2>';
+    $output = '';
     foreach ($event_list as $event) {
       ob_start();
       include( plugin_dir_path( __FILE__ ) . '/templates/event-item-card.php' );

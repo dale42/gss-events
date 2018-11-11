@@ -2,3 +2,46 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+article.gss-events-item-card {
+  margin-bottom: 2em;
+}
+
+.gss-events-item-card {
+  display: flex;
+}
+
+.gss-events-date-box-inner {
+  margin-right: 1em;
+  margin-top: 0.6em;
+  padding: 0.5em 0;
+  background-color: #e10707;
+  color: #fff;
+}
+
+.gss-events-date-box span {
+  display: block;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  text-align: center;
+}
+
+.gss-events-day {
+  padding-top: 6px;
+  line-height: 29px;
+  font-size: 29px;
+  font-weight: 700;
+}
+
+.gss-events-month-year {
+  white-space: nowrap;
+}
+
+.gss-events-item-card h2.gss-events-item-title {
+  margin-top: 0;
+  margin-bottom: 0.1em;
+}
+
+article .gss-events-item-content p {
+  margin-bottom: 0.75em;
+}
