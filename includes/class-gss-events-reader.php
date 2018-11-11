@@ -12,6 +12,8 @@
  */
 class Gss_Events_Reader {
 
+  const RESULTS_TRANSIENT_ID = 'gss_events_reader_spreadsheet_raw';
+
   /**
    * The ID of this plugin.
    *
@@ -86,15 +88,22 @@ class Gss_Events_Reader {
    * @access   private
    * @return   string    A string containing the contents of the spreadsheet file.
    */
-  private function fetch_spreadsheet_rows() {
+  private function fetch_raw_google_spreadsheet($no_cache = FALSE) {
 
-    $response = wp_remote_get( $this->gss_url );
-    $response_code = wp_remote_retrieve_response_code( $response );
-    if ($response_code != 200) {
-      throw new Exception("Could not fetch data, response code $response_code");
+    $response_body = get_transient( self::RESULTS_TRANSIENT_ID );
+
+    if ($no_cache || $response_body === FALSE) {
+      $response = wp_remote_get( $this->gss_url );
+      $response_code = wp_remote_retrieve_response_code( $response );
+      if ($response_code != 200) {
+        throw new Exception("Could not fetch data, response code $response_code");
+      }
+      $response_body = wp_remote_retrieve_body($response);
+      $expiration = 3600; // 1 hour
+      set_transient(self::RESULTS_TRANSIENT_ID, $response_body, $expiration);
     }
 
-    return wp_remote_retrieve_body($response);
+    return $response_body;
 
   }
 
@@ -188,7 +197,7 @@ class Gss_Events_Reader {
    */
   public function fetch_events() {
 
-    $response_body = $this->fetch_spreadsheet_rows();
+    $response_body = $this->fetch_raw_google_spreadsheet();
 
     $this->parse_csv_string($response_body);
 
@@ -211,7 +220,7 @@ class Gss_Events_Reader {
       'content'   => [],
     ];
 
-    $csv_spreadsheet_data = $this->fetch_spreadsheet_rows();
+    $csv_spreadsheet_data = $this->fetch_raw_google_spreadsheet(TRUE);
 
     try {
       $this->parse_csv_string($csv_spreadsheet_data);
