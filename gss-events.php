@@ -16,7 +16,7 @@
  * Plugin Name:       Google Spreadsheet Events
  * Plugin URI:        https://github.com/dale42/gss-events
  * Description:       Display events from a Google Spreadsheet.
- * Version:           0.1.3
+ * Version:           1.0.0
  * Author:            Dale McGladdery
  * Author URI:        https://group42.ca
  * License:           GPL-2.0+
@@ -35,16 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 0.1.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'PLUGIN_NAME_VERSION', '0.1.3' );
-
-/**
- * The code that runs during plugin activation.
- * This action is documented in includes/class-gss-events-activator.php
- */
-function activate_gss_events() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-gss-events-activator.php';
-	Gss_Events_Activator::activate();
-}
+define( 'PLUGIN_NAME_VERSION', '1.0.0' );
 
 /**
  * The code that runs during plugin deactivation.
@@ -55,7 +46,6 @@ function deactivate_gss_events() {
 	Gss_Events_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_gss_events' );
 register_deactivation_hook( __FILE__, 'deactivate_gss_events' );
 
 /**
